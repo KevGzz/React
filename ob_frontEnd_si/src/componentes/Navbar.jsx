@@ -16,7 +16,10 @@ const Navbar = () => {
     <>
        <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
-          <NavLink className="navbar-brand" to="/Dashboard">Babytracker</NavLink>
+          <NavLink className="navbar-brand" to="/Dashboard">
+            <img src="https://img.icons8.com/ultraviolet/40/baby-bottle.png" alt="Logo" width="30" height="30" className="d-inline-block align-text-top" style={{marginRight:5}}/>
+            Babytracker
+          </NavLink>
           <div className="navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               {localStorage.getItem("apiKey") != null &&
