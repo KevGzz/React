@@ -1,7 +1,14 @@
-import { Link } from "react-router-dom"
+import { useEffect } from "react"
+import { Link, useNavigate } from "react-router-dom"
 
 const Inicio = () => {
-  return (
+
+  const navigator = useNavigate()
+  useEffect(() => {
+    if(localStorage.getItem("apiKey") != null) navigator("/Dashboard");
+  },[])
+
+  return ( 
     <>
         <h1 className='text-center'>Babytracker</h1>
         <div className="row">

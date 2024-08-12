@@ -21,14 +21,12 @@ const AgregarEvento = () => {
 			},
 		})
 			.then((r) => r.json())
-			.then((data) => setCategorias(data.categorias));
+			.then((data) => {
+				setCategorias(data.categorias)});
 	}, []);
 
-	const agregarEvento = () => {
-		if (
-			startDate != null &&
-			localStorage.getItem("categoria") != null
-		) {
+	const agregarEventos = () => {
+		if (startDate != null && localStorage.getItem("categoria") != null) {
 			fetch("https://babytracker.develotion.com/eventos.php", {
 				method: "POST",
 				headers: {
@@ -49,7 +47,16 @@ const AgregarEvento = () => {
 				})
 				.then((data) => {
 					if (data.codigo == 200) {
-						dispatch(agregarEvento(json));
+						console.log(data);
+						dispatch(
+							agregarEvento({
+								id: data.idEvento,
+								idCategoria: localStorage.getItem("categoria"),
+								idUsuario: localStorage.getItem("idUser"),
+								detalle: detalles.current.value,
+								fecha: startDate.toJSON(),
+							})
+						);
 						toast.success("Exito!");
 					} else {
 						toast.error(data.mensaje);
@@ -126,7 +133,7 @@ const AgregarEvento = () => {
 						<button
 							type="submit"
 							className="btn btn-info"
-							onClick={agregarEvento}
+							onClick={agregarEventos}
 						>
 							Agregar
 						</button>

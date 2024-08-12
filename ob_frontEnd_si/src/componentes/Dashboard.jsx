@@ -9,7 +9,7 @@ import Eventos from "./Eventos";
 const Dashboard = () => {
 	const hoy = new Date();
 	const navigator = useNavigate();
-	const eventos = useSelector((state) => state.eventos.eventos);
+	const eventos = useSelector(state => state.eventos.eventos);
 	const [loading, setLoading] = useState(true);
 	const dispatch = useDispatch();
 
@@ -83,6 +83,7 @@ const Dashboard = () => {
 				</div>
 
 				<div className="col-4 border border-light-subtle rounded">
+					<h4 style={{marginTop:20}}>Hoy</h4>
 					<EventosHoy
 						eventos={eventos.filter((evento) => {
 							const fechaEvento = new Date(evento.fecha);
@@ -94,7 +95,8 @@ const Dashboard = () => {
 						})}
 					/>
 					<hr />
-          <Eventos
+					<h4>Días Anteriores</h4>
+          		    <Eventos
 						eventos={eventos.filter((evento) => {
 							const fechaEvento = new Date(evento.fecha);
 							return !(

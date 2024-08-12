@@ -1,13 +1,20 @@
 import { useNavigate } from 'react-router-dom';
 import '../../bootstrap-5.3.3-dist/css/bootstrap.css'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { toast } from "react-toastify";
 
 const Login = () => {
 
-    const usuario = useRef(null);
-    const password = useRef(null);
+    const [usuario, setUsuario] = useState('');
+    const [password, setPassword] = useState('');
     const navigator = useNavigate();
+    const [habilitado, setHabilitado] = useState(true);
+
+    useEffect(() => {
+        if (usuario.trim() && password.trim()) {
+            setHabilitado(false); // Enable the button
+        } 
+    }, [usuario, password])
 
     const login = () => {
         fetch("https://babytracker.develotion.com/login.php", {
@@ -16,8 +23,8 @@ const Login = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                "usuario": usuario.current.value,
-                "password": password.current.value
+                "usuario": usuario,
+                "password": password
             }),
         })
             .then(function (response) {
@@ -39,6 +46,14 @@ const Login = () => {
             });   
     }
 
+    const cambiarUsuario = (e) => {
+        setUsuario(e.target.value);
+    };
+
+    const cambiarPassword = (e) => {
+        setPassword(e.target.value);
+    };
+
   return (
     <>
 
@@ -52,14 +67,14 @@ const Login = () => {
                     <div className="card-body">
                         <div className="form-group">
                             <label htmlFor="usuario" className="control-label">Username</label>
-                            <input id="usuario" ref={usuario} className="form-control" />
+                            <input id="usuario" className="form-control" onChange={cambiarUsuario} />
                         </div>
                         <div className="form-group">
                             <label htmlFor="password" className="control-label">Password</label>
-                            <input type="password" id="password" ref={password} className="form-control" />
+                            <input type="password" id="password" className="form-control" onChange={cambiarPassword} />
                         </div>
                         <div className="form-group" style={{marginTop:10}}>
-                            <input type="submit" value="Log in" className="btn btn-info" onClick={login} />
+                            <button type="submit" className="btn btn-info" disabled={habilitado} onClick={login}>Iniciar Sesión</button>
                         </div>
                     </div>
                     </div>
