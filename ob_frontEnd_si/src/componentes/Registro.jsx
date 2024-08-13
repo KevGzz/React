@@ -1,6 +1,6 @@
 import '../../bootstrap-5.3.3-dist/css/bootstrap.css'
 import '../../bootstrap-5.3.3-dist/js/bootstrap'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import Departamentos from './Departamentos'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -10,6 +10,8 @@ const Registro = () => {
     const usuario = useRef(null);
     const password = useRef(null);
     const navigator = useNavigate();
+
+    useEffect(() => {if(localStorage.getItem("apiKey") !== null) navigator("/Dashboard")},[])
 
     const registrar = () => {
         if(usuario.current.value != null && password.current.value != null && localStorage.getItem("departamento") != null && localStorage.getItem("ciudad") != null){
@@ -31,6 +33,7 @@ const Registro = () => {
 			})
 			.then(function (data) {
 				if (data.codigo == 200) {
+                    localStorage.setItem("idUser", data.id);
 					localStorage.setItem("apiKey", data.apiKey);
                     toast.success("Bienvenido " + usuario.current.value + "!");
                     navigator("/Dashboard")

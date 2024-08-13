@@ -4,11 +4,12 @@ import { useEffect, useRef, useState } from 'react'
 import { toast } from "react-toastify";
 
 const Login = () => {
-
     const [usuario, setUsuario] = useState('');
     const [password, setPassword] = useState('');
     const navigator = useNavigate();
     const [habilitado, setHabilitado] = useState(true);
+
+    useEffect(() => {if(localStorage.getItem("apiKey") !== null) navigator("/Dashboard")},[])
 
     useEffect(() => {
         if (usuario.trim() && password.trim()) {
