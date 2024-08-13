@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
-import { agregarEvento } from "../features/eventoSlice";
+import { agregarEvento, guardarBiberon, sumarBiberon } from "../features/eventoSlice";
 import { toast } from "react-toastify";
 
 const AgregarEvento = () => {
@@ -13,7 +13,7 @@ const AgregarEvento = () => {
   const [startDate, setStartDate] = useState(new Date());
 
   const agregarEventos = () => {
-    if (startDate != null && localStorage.getItem("categoria") != null) {
+    if (startDate != null && parseInt(localStorage.getItem("categoria"))) {
       fetch("https://babytracker.develotion.com/eventos.php", {
         method: "POST",
         headers: {
@@ -25,26 +25,31 @@ const AgregarEvento = () => {
           idCategoria: localStorage.getItem("categoria"),
           idUsuario: localStorage.getItem("idUser"),
           detalle: detalles.current.value,
-          fecha: startDate,
+          fecha: startDate.getFullYear() + "-" + Number(startDate.getMonth() + 1) + "-" + startDate.getDate() + " " + startDate.getHours() + ":" + startDate.getMinutes() +":"+ startDate.getSeconds()
         }),
       })
         .then((response) => {
-          console.log(response);
+          // console.log("RESPUESTA DE API AGREGAR: ",response);
           return response.json();
         })
         .then((data) => {
           if (data.codigo == 200) {
-            console.log(data);
+            // console.log("Datos de api AGREGAR: ",data);
+            const mes = Number((startDate.getMonth()) + 1)
             dispatch(
               agregarEvento({
                 id: data.idEvento,
                 idCategoria: Number(localStorage.getItem("categoria")),
                 idUsuario: Number(localStorage.getItem("idUser")),
                 detalle: detalles.current.value,
-                fecha: startDate.toJSON(),
+                fecha: startDate.getFullYear() + "-" + mes + "-" + startDate.getDate() + " " + startDate.getHours() + ":" + startDate.getMinutes() +":"+ startDate.getSeconds()
               })
             );
             toast.success("Exito!");
+            if(Number(localStorage.getItem("categoria")) == 35){
+              dispatch(sumarBiberon());
+              dispatch(guardarBiberon(startDate.getHours()));
+            }
           } else {
             toast.error(data.mensaje);
           }
@@ -106,6 +111,7 @@ const AgregarEvento = () => {
             <DatePicker
               className="datePicker"
               selected={startDate}
+              maxDate={new Date()}
               onChange={(date) => setStartDate(date)}
             />
           </div>

@@ -2,7 +2,6 @@ import '../../bootstrap-5.3.3-dist/css/bootstrap.css'
 import '../../bootstrap-5.3.3-dist/js/bootstrap'
 import { useRef } from 'react'
 import Departamentos from './Departamentos'
-import MensajeError from './MensajeError'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
@@ -27,7 +26,7 @@ const Registro = () => {
                 })
             })
             .then(function (response) {
-				console.log(response);
+				// console.log(response);
 				return response.json();
 			})
 			.then(function (data) {

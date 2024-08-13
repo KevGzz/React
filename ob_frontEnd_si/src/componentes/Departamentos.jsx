@@ -12,7 +12,6 @@ const Departamentos = () => {
     }, []);
 
     useEffect(() => {
-        // Fetch the list of ciudades when the selected departamento changes
         if (selDepartamento) {
             fetch(`https://babytracker.develotion.com/ciudades.php?idDepartamento=${selDepartamento}`)
                 .then(r => r.json())

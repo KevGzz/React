@@ -28,11 +28,11 @@ const Login = () => {
             }),
         })
             .then(function (response) {
-                console.log(response);
+                // console.log(response);
                 return response.json();
             })
             .then(function (data) {
-                console.log(data);
+                // console.log(data);
     
                 if (data.codigo == 200) {
                     localStorage.setItem("apiKey", data.apiKey);
